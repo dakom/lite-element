@@ -20,7 +20,7 @@ That said, it's _very_ tiny (<1K gzipped w/o lit-html), fast, and makes custom e
 
 Here's some features it DOES have:
 
-* Deferred initial render until connected (can opt-out)
+* Customizable options to control when it renders
 * React to changes (using lit-html for fast rendering)
 * Merging of properties and attributes (reacts to both, preserves camelCasing for callback) 
 * Specify a conversion type from attributes (which html requires be set as a string) 
@@ -122,6 +122,6 @@ The end result of all the above will be a page like this:
 * json roundtrip: {"hello":"world"}
 ```
 
-You can also supply `renderMode` to control when it renders. By default, it defers all the initial attribute changes and first render is on `connected`, then from there it's synchronous.
+You can also supply a `renderMask` to control when it renders 
 
 See [the source](lib/src/lib.ts) for the exact types

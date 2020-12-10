@@ -30,7 +30,7 @@ makeElement({
         </ul>
     `
   },
-  //renderMode: RenderMode.Immediate
+  logRenders: true,
 });
 
 let App = () => html`
