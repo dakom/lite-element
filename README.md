@@ -124,4 +124,4 @@ The end result of all the above will be a page like this:
 
 You can also supply `renderMode` to control when it renders. By default, it defers all the initial attribute changes and first render is on `connected`, then from there it's synchronous.
 
-See [the source](./src/lib.ts) for the exact types
+See [the source](src/lib.ts) for the exact types
