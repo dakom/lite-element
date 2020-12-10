@@ -1,5 +1,5 @@
 import {html, render} from 'lit-html';
-import {makeElement, PropKind} from "./lib";
+import {makeElement, PropKind, RenderMode} from "./lib";
 
 makeElement({
   name: "my-element",
@@ -29,7 +29,8 @@ makeElement({
             <li>json roundtrip: ${JSON.stringify(jsonString)}</li>
         </ul>
     `
-  }
+  },
+  //renderMode: RenderMode.Immediate
 });
 
 let App = () => html`
@@ -47,7 +48,6 @@ let App = () => html`
 `;
 
 render(App(), document.body);
-
 const el:any = document.getElementById("mine");
 
 el.setAttribute("changedAttr", "Changed Attribute");

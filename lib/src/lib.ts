@@ -121,13 +121,9 @@ abstract class LiteElement<T> extends HTMLElement {
     }
   }
 
-
-  adoptedCallback() {
-    //this._renderToSelf();
-  }
   connectedCallback() {
-    //this.__deferInitialRender = false;
-    //this._renderToSelf();
+    this.__deferInitialRender = false;
+    this._renderToSelf();
   }
 
   _renderToSelf() {
