@@ -1,5 +1,5 @@
 import {html, render} from 'lit-html';
-import {makeElement, PropKind, RenderMode} from "./lib";
+import {makeElement, PropKind, RENDER_MASK_ALL } from "./lib";
 
 makeElement({
   name: "my-element",
@@ -16,20 +16,23 @@ makeElement({
   ],
   render: ({fooBar, initialAttr, changedAttr, jsonString, dynamicProp, attrNumber, propNumber, flag, flagString}:any) => {
       return html`
-        <ul>
-            <li>foo: ${fooBar}</li>
-            <li>initialAttr: ${initialAttr}</li>
-            <li>changedAttr: ${changedAttr}</li>
-            <li>dynamicProp: ${dynamicProp}</li>
-            <li>attrNumber: ${attrNumber + 2}</li>
-            <li>propNumber: ${propNumber + 2}</li>
-            <li>flag: ${flag ? "yes" : "no"}</li>
-            <li>flagString: ${flagString ? "yes" : "no"}</li>
-            <li>jsonString via attr: ${jsonString}</li>
-            <li>json roundtrip: ${JSON.stringify(jsonString)}</li>
-        </ul>
+        <div>
+            <ul>
+                <li>foo: ${fooBar}</li>
+                <li>initialAttr: ${initialAttr}</li>
+                <li>changedAttr: ${changedAttr}</li>
+                <li>dynamicProp: ${dynamicProp}</li>
+                <li>attrNumber: ${attrNumber + 2}</li>
+                <li>propNumber: ${propNumber + 2}</li>
+                <li>flag: ${flag ? "yes" : "no"}</li>
+                <li>flagString: ${flagString ? "yes" : "no"}</li>
+                <li>jsonString via attr: ${jsonString}</li>
+                <li>json roundtrip: ${JSON.stringify(jsonString)}</li>
+            </ul>
+        </div>
     `
   },
+  renderMask: RENDER_MASK_ALL,
   logRenders: true,
 });
 

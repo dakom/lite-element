@@ -16,7 +16,7 @@ The use-case here is more like "reactive custom elements" than full-fledged comp
 * No decorators, additional lifecycle methods, etc.
 * Only a single function (no exported classes to override/extend)
 
-That said, it's _very_ tiny (<1K gzipped w/o lit-html), fast, and makes custom elements a breeze.
+That said, it's _very_ tiny (~1K gzipped w/o lit-html), fast, and makes custom elements a breeze.
 
 Here's some features it DOES have:
 
@@ -122,6 +122,6 @@ The end result of all the above will be a page like this:
 * json roundtrip: {"hello":"world"}
 ```
 
-You can also supply a `renderMask` to control when it renders 
+You can also supply a `renderMask` to control when it renders and `logRenders` for debugging
 
 See [the source](lib/src/lib.ts) for the exact types
