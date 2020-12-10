@@ -10,7 +10,7 @@ It's not framework and it deliberately makes none of the optimizations `lit-elem
 
 The use-case here is more like "reactive custom elements" than full-fledged components and the intent is for usage within other frameworks. Here's some features it does NOT have:
 
-* No async rendering
+* No async rendering on changes
 * No Shadow DOM
 * No reverse-mapping of Attributes to properties
 * No decorators, additional lifecycle methods, etc.
@@ -20,6 +20,7 @@ That said, it's _very_ tiny (<1K gzipped w/o lit-html), fast, and makes custom e
 
 Here's some features it DOES have:
 
+* Deferred initial render until connected (can opt-out)
 * React to changes (using lit-html for fast rendering)
 * Merging of properties and attributes (reacts to both, preserves camelCasing for callback) 
 * Specify a conversion type from attributes (which html requires be set as a string) 
@@ -49,13 +50,14 @@ makeElement({
       ["attrNumber", PropKind.Number],
       "propNumber",
       ["flag", PropKind.Boolean],
-      ["flagString", PropKind.Boolean]
+      ["flagString", PropKind.Boolean],
+      ["jsonString", PropKind.Json],
   ],
 
 //The render function. It simply gets back the current props
 //Must return a lit-html Template result (e.g. html`...`)
 
-  render: ({fooBar, initialAttr, changedAttr, dynamicProp, attrNumber, propNumber, flag, flagString}:any) => {
+  render: ({fooBar, initialAttr, changedAttr, dynamicProp, attrNumber, propNumber, flag, flagString, jsonString}:any) => {
       return html`
         <ul>
             <li>foo: ${fooBar}</li>
@@ -66,6 +68,8 @@ makeElement({
             <li>propNumber: ${propNumber + 2}</li>
             <li>flag: ${flag ? "yes" : "no"}</li>
             <li>flagString: ${flagString ? "yes" : "no"}</li>
+            <li>jsonString via attr: ${jsonString}</li>
+            <li>json roundtrip: ${JSON.stringify(jsonString)}</li>
         </ul>
     `
   }
@@ -86,6 +90,7 @@ let App = () => html`
         attrNumber="30"
         flag
         flagString="false"
+        jsonString='{"hello": "world"}'
     >
     </my-element>
 `;
@@ -113,4 +118,10 @@ The end result of all the above will be a page like this:
 * propNumber: 42
 * flag: yes
 * flagString: no
+* jsonString via attr: [object Object]
+* json roundtrip: {"hello":"world"}
 ```
+
+You can also supply `renderMode` to control when it renders. By default, it defers all the initial attribute changes and first render is on `connected`, then from there it's synchronous.
+
+See [the source](./src/lib.ts) for the exact types

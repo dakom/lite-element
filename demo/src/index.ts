@@ -11,9 +11,10 @@ makeElement({
       ["attrNumber", PropKind.Number],
       "propNumber",
       ["flag", PropKind.Boolean],
-      ["flagString", PropKind.Boolean]
+      ["flagString", PropKind.Boolean],
+      ["jsonString", PropKind.Json],
   ],
-  render: ({fooBar, initialAttr, changedAttr, dynamicProp, attrNumber, propNumber, flag, flagString}:any) => {
+  render: ({fooBar, initialAttr, changedAttr, jsonString, dynamicProp, attrNumber, propNumber, flag, flagString}:any) => {
       return html`
         <ul>
             <li>foo: ${fooBar}</li>
@@ -24,6 +25,8 @@ makeElement({
             <li>propNumber: ${propNumber + 2}</li>
             <li>flag: ${flag ? "yes" : "no"}</li>
             <li>flagString: ${flagString ? "yes" : "no"}</li>
+            <li>jsonString via attr: ${jsonString}</li>
+            <li>json roundtrip: ${JSON.stringify(jsonString)}</li>
         </ul>
     `
   }
@@ -38,13 +41,14 @@ let App = () => html`
         attrNumber="30"
         flag
         flagString="false"
+        jsonString='{"hello": "world"}'
     >
     </my-element>
 `;
 
 render(App(), document.body);
 
-const el = document.getElementById("mine");
+const el:any = document.getElementById("mine");
 
 el.setAttribute("changedAttr", "Changed Attribute");
 el.dynamicProp = "Dynamic Property";
