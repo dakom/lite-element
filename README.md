@@ -1,5 +1,9 @@
 # LiteElement
 
+```
+npm install --save lite-element
+```
+
 A _very_ basic barebones web component helper that uses `lit-html`.
 
 It's not framework and it deliberately makes none of the optimizations `lit-element` does.
