@@ -3,9 +3,9 @@ import {render as litHtmlRender, TemplateResult} from "lit-html";
 //Would be great if we could constrain T
 //To be a map with the strings in props 
 export interface ElementConfig<T> {
-  props:Array<RenderProp>,
-  render:(props:T) => TemplateResult,
   name: string,
+  render:(props:T) => TemplateResult,
+  props?:Array<RenderProp>,
   renderMask?: number,
   logRenders?: boolean
 }
@@ -65,6 +65,7 @@ function debugMask(mask:number):Array<string> {
 
   return list;
 }
+
 // via https://css-tricks.com/creating-a-custom-element-from-scratch/
 abstract class LiteElement<T> extends HTMLElement {
   __internalProps:T = {} as T;
@@ -85,13 +86,15 @@ abstract class LiteElement<T> extends HTMLElement {
     this.__observedAttributes.push(name);
   }
 
-  constructor({renderMask, props, logRenders}:{renderMask: number, props:Array<RenderProp>, logRenders?: boolean}) {
+  constructor({renderMask, props, logRenders}:ElementConfig<T>) {
     super();
 
-    this.__renderMask = renderMask;
+    this.__renderMask = renderMask == null ? DEFAULT_RENDER_MASK : renderMask;
     this.__logRenders = logRenders === true ? true : false;
 
-    this.setupProps(props);
+    if(props) {
+      this.setupProps(props);
+    }
   }
 
   setupProps(props:Array<RenderProp>) {
@@ -116,31 +119,6 @@ abstract class LiteElement<T> extends HTMLElement {
         }
     });
   }
-
-  //Disabled... not using and would need headache to deal with namespace conflicts
-  /*
-  setupInvertedAttributeReflection() {
-      const {observedAttributes} = this.constructor as any;
-
-      if (observedAttributes && observedAttributes.length) {
-        observedAttributes.forEach((attribute:string) => {
-          Object.defineProperty(this, attribute, {
-            get() { 
-              return this.getAttribute(attribute); 
-            },
-            set(attrValue) {
-              if (attrValue) {
-                this.setAttribute(attribute, attrValue);
-              } else {
-                this.removeAttribute(attribute);
-              }
-              this._renderToSelf(RENDER_MASK_PROPS);
-            }
-          });
-        });
-      }
-  }
-  */
 
   //When attributes change (and the first time)
   //set them on the corresponding property
@@ -239,11 +217,7 @@ export function makeElement<T>(config:ElementConfig<T>) {
 
   const _class = class extends LiteElement<T> {
     constructor() {
-      super({
-        renderMask: config.renderMask == null ? DEFAULT_RENDER_MASK : config.renderMask,
-        props: config.props,
-        logRenders: config.logRenders
-      });
+      super(config);
       //setupProps(config.props, this);
     }
     render(props:T) {
@@ -252,12 +226,16 @@ export function makeElement<T>(config:ElementConfig<T>) {
   }
 
   //couldn't figure out how to do this in setup props
+  //or the class constructor
   //and the Object.getPrototypeOf thing is weird
   //but whatever, it works!
-  config.props.forEach(_prop => {
-    const [prop,] = deconstructProp(_prop);
-    Object.getPrototypeOf(_class).pushObservedAttribute(prop.toLowerCase());
-  });
+  if(config.props) {
+    const staticRef = Object.getPrototypeOf(_class);
+    config.props.forEach(_prop => {
+      const [prop,] = deconstructProp(_prop);
+      staticRef.pushObservedAttribute(prop.toLowerCase());
+    });
+  }
 
   customElements.define(config.name, _class);
 }

@@ -38,7 +38,9 @@ import {makeElement, PropKind} from "lite-element";
 
 makeElement({
   name: "simple-element",
+
   props: ["name", ["value", PropKind.Number]],
+
   render: ({name, value}) => html`
     <div>
         hello ${name} (that's a ${typeof name})! 

@@ -54,18 +54,20 @@ makeElement({
 // Render everything to the page
 
 let App = () => html`
-    <my-element 
-        id="mine" 
-        fooBar="Foo"
-        initialAttr="Initial Attribute"
-        changedAttr="Initial Attribute"
-        attrNumber="30"
-        flag
-        flagString="false"
-        jsonString='{"hello": "world"}'
-    >
-    </my-element>
-    <simple-element name="world" value="42" />
+    <main>
+        <p><simple-element name="world" value="42"></simple-element></p>
+        <my-element 
+            id="mine" 
+            fooBar="Foo"
+            initialAttr="Initial Attribute"
+            changedAttr="Initial Attribute"
+            attrNumber="30"
+            flag
+            flagString="false"
+            jsonString='{"hello": "world"}'
+        >
+        </my-element>
+    </main>
 `;
 
 render(App(), document.body);
