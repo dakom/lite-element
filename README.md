@@ -26,7 +26,42 @@ Here's some features it DOES have:
 * Specify a conversion type from attributes (which html requires be set as a string) 
 * Define your component with a single function call
 
-There's an example in the demo folder, works like this:
+### Example
+
+_Both of the following examples are also in the [demo](demo/) (which you can spin up for a local playground)._
+
+1. In a library somewhere to define your custom elements:
+```
+
+interface Props {
+    name: string,
+    value: number
+}
+makeElement({
+  name: "simple-element",
+  props: ["name", ["value", PropKind.Number]],
+  render: ({name, value}:Props) => html`
+    <div>
+        hello ${name} (that's a ${typeof name})! 
+        value is ${value} (that's a ${typeof value}).
+    </div>
+  `
+});
+```
+
+2. In your rendered html:
+
+```
+<simple-element name="world" value="42" />
+```
+
+3. Result:
+```
+hello world (that's a string)! value is 42 (that's a number).
+```
+
+### Another example
+
 
 ```
 makeElement({
@@ -124,4 +159,4 @@ The end result of all the above will be a page like this:
 
 You can also supply a `renderMask` to control when it renders and `logRenders` for debugging
 
-See [the source](lib/src/lib.ts) for the exact types
+See [the source](lib/src/lib.ts) for more details 

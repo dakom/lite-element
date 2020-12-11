@@ -1,6 +1,21 @@
 import {html, render} from 'lit-html';
 import {makeElement, PropKind, RENDER_MASK_ALL } from "./lib";
 
+interface Props {
+    name: string,
+    value: number
+}
+makeElement({
+  name: "simple-element",
+  props: ["name", ["value", PropKind.Number]],
+  render: ({name, value}:Props) => html`
+    <div>
+        hello ${name} (that's a ${typeof name})! 
+        value is ${value} (that's a ${typeof value}).
+    </div>
+  `
+});
+
 makeElement({
   name: "my-element",
   props: [
@@ -36,6 +51,8 @@ makeElement({
   logRenders: true,
 });
 
+// Render everything to the page
+
 let App = () => html`
     <my-element 
         id="mine" 
@@ -48,6 +65,7 @@ let App = () => html`
         jsonString='{"hello": "world"}'
     >
     </my-element>
+    <simple-element name="world" value="42" />
 `;
 
 render(App(), document.body);
