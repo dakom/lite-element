@@ -21,7 +21,7 @@ export enum PropKind {
   Boolean = "boolean"
 }
 
-//Not used generally except at a library level
+//Not used generally except for debugging or niche edge cases
 export const RENDER_MASK_CONNECT =              0b000001; //render when connected
 export const RENDER_MASK_ADOPT =                0b000010; //render when adopted
 export const RENDER_MASK_DISCONNECT =           0b000100; //render when adopted
