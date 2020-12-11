@@ -17,6 +17,17 @@ makeElement({
 });
 
 makeElement({
+  name: "simple-element-dup",
+  props: ["name", ["value", PropKind.Number]],
+  render: ({name, value}:Props) => html`
+    <div>
+        hello ${name} (that's a ${typeof name})! 
+        value is ${value} (that's a ${typeof value}).
+    </div>
+  `
+});
+
+makeElement({
   name: "my-element",
   props: [
       "fooBar", 
@@ -56,6 +67,8 @@ makeElement({
 let App = () => html`
     <main>
         <p><simple-element name="world" value="42"></simple-element></p>
+        <p><simple-element-dup name="my friend" value="007"></simple-element-dup></p>
+        <p><simple-element name="world-2" value="13"></simple-element></p>
         <my-element 
             id="mine" 
             fooBar="Foo"
