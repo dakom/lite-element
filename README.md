@@ -36,14 +36,10 @@ _Both of the following examples are also in the [demo](demo/) (which you can spi
 import {html} from 'lit-html';
 import {makeElement, PropKind} from "lite-element";
 
-interface Props {
-    name: string,
-    value: number
-}
 makeElement({
   name: "simple-element",
   props: ["name", ["value", PropKind.Number]],
-  render: ({name, value}:Props) => html`
+  render: ({name, value}) => html`
     <div>
         hello ${name} (that's a ${typeof name})! 
         value is ${value} (that's a ${typeof value}).
