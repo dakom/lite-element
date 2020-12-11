@@ -33,6 +33,9 @@ _Both of the following examples are also in the [demo](demo/) (which you can spi
 1. In a library somewhere to define your custom elements:
 ```
 
+import {html} from 'lit-html';
+import {makeElement, PropKind} from "lite-element";
+
 interface Props {
     name: string,
     value: number
